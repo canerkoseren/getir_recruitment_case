@@ -9,5 +9,9 @@ public interface CustomerService {
 
     void save(CustomerDto customer);
 
+    CustomerDto findCustomerById(Long customerId);
+
+    CustomerDto findCustomerByEmail(String email);
+
     List<CustomerOrder> customerOrders(Long customerId) throws Exception;
 }

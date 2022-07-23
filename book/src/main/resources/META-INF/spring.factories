@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.example.book.rest.configuration.AppConfig,\
+  com.example.book.data.config.MongoConfig

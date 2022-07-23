@@ -8,11 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Document("customer")
 public class Customer {
 
     @Id
+    private Long id;
     private String email;
     private String name;
     private String lastName;

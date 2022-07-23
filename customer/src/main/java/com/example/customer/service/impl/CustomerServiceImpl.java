@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -29,16 +30,34 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void save(CustomerDto customer) {
 
-        long count = customerDao.count();
         Customer customerEntity = mapper.mapToEntity(customer);
+        customerEntity.setId(getNextSequenceId());
 
         customerDao.insert(customerEntity);
         logger.debug("Customer: {} has been saved", customer);
     }
 
     @Override
+    public CustomerDto findCustomerById(Long customerId) {
+
+        Optional<Customer> customerEntity = customerDao.findById(customerId);
+        return mapper.mapToDto(customerEntity.get());
+    }
+
+    @Override
+    public CustomerDto findCustomerByEmail(String email) {
+        Optional<Customer> byEmail = customerDao.findByEmail(email);
+        return mapper.mapToDto(byEmail.get());
+    }
+
+    @Override
     public ArrayList customerOrders(Long customerId) throws Exception {
 
         return Optional.ofNullable(customerDao.findById(customerId)).map(customer -> new ArrayList()).orElseThrow(() -> new Exception("Invalid customerId"));
+    }
+
+    private long getNextSequenceId() {
+        Random random = new Random();
+        return (random.nextLong() * (random.nextLong() % 100)) + customerDao.count();
     }
 }
