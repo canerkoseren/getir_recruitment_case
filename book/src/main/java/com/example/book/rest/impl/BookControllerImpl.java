@@ -3,6 +3,8 @@ package com.example.book.rest.impl;
 import com.example.book.rest.BookController;
 import com.example.book.service.BookService;
 import com.example.book.service.model.BookDto;
+import com.example.book.service.model.exception.BookProcessException;
+import com.example.book.service.model.exception.BookValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +32,22 @@ public class BookControllerImpl implements BookController {
     }
 
     @Override
-    public ResponseEntity<BookDto> save(@RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> save(@RequestBody BookDto bookDto) throws BookValidationException, BookProcessException {
 
-        logger.info("Book: {} will be saved", bookDto);
         BookDto book = bookService.save(bookDto);
+        logger.info("Book: {} has been saved", bookDto);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<BookDto> findBookById(@RequestParam Long bookId) {
+    public ResponseEntity<BookDto> findBookById(@RequestParam Long bookId) throws BookProcessException, BookValidationException {
         BookDto book = bookService.findBookById(bookId);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws Exception {
         BookDto book = bookService.update(bookDto);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
-
 }

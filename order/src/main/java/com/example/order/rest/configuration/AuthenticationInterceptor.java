@@ -8,6 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Interceptor responsible for authentication.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationInterceptor.class);

@@ -1,23 +1,23 @@
 package com.example.order.service.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+/**
+ * Order dto class.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 public class OrderDto {
 
     private Long id;
     private Long customerId;
     private List<Long> bookIdList;
     private String status;
-    private BigDecimal amount;
+    private Double amount;
     private LocalDate processDate;
 
     public Long getId() {
@@ -52,11 +52,11 @@ public class OrderDto {
         this.status = status;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

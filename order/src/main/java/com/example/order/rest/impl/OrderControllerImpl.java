@@ -3,6 +3,8 @@ package com.example.order.rest.impl;
 import com.example.order.rest.OrderController;
 import com.example.order.service.OrderService;
 import com.example.order.service.model.OrderDto;
+import com.example.order.service.model.exception.OrderProcessException;
+import com.example.order.service.model.exception.OrderValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Implementation of {@link OrderController}.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 @RestController
 public class OrderControllerImpl implements OrderController {
 
@@ -33,7 +42,7 @@ public class OrderControllerImpl implements OrderController {
     }
 
     @Override
-    public ResponseEntity<OrderDto> save(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderDto> save(@RequestBody OrderDto orderDto) throws OrderValidationException, OrderProcessException {
 
         logger.info("Order: {} will be saved", orderDto);
         OrderDto order = orderService.save(orderDto);
@@ -53,9 +62,27 @@ public class OrderControllerImpl implements OrderController {
     }
 
     @Override
-    public ResponseEntity<List<OrderDto>> queryByProcessDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+    public ResponseEntity<List<OrderDto>> queryByProcessDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) throws OrderValidationException {
         List<OrderDto> orderList = orderService.queryByProcessDate(startDate, endDate);
         return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<OrderDto>> findOrderByCustomerId(Long customerId) {
+        List<OrderDto> orderList = orderService.findOrderByCustomerId(customerId);
+        return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Long> getTotalCount() {
+        Long totalCount = orderService.getTotalCount();
+        return new ResponseEntity<>(totalCount, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<OrderDto>> findAll() {
+        List<OrderDto> allOrders = orderService.findAll();
+        return new ResponseEntity<>(allOrders, HttpStatus.OK);
     }
 
 }

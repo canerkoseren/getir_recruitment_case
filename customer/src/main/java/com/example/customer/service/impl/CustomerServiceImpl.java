@@ -1,63 +1,101 @@
 package com.example.customer.service.impl;
 
-import com.example.customer.data.dao.CustomerDao;
+import com.example.customer.data.dao.CustomerRepository;
 import com.example.customer.data.entity.Customer;
-import com.example.customer.data.mapper.CustomerMapper;
 import com.example.customer.service.CustomerService;
 import com.example.customer.service.model.CustomerDto;
+import com.example.customer.service.model.exception.CustomerProcessException;
+import com.example.customer.service.model.exception.CustomerValidationException;
+import com.example.customer.service.model.mapper.CustomerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Service implementations for {@link CustomerService}.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     private static final CustomerMapper mapper = CustomerMapper.INSTANCE;
 
-    private CustomerDao customerDao;
+    private CustomerRepository customerRepository;
+    private Random random;
 
     @Autowired
-    public CustomerServiceImpl(CustomerDao customerDao) {
-        this.customerDao = customerDao;
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+        this.random = new Random();
     }
 
     @Override
-    public void save(CustomerDto customer) {
+    public CustomerDto save(CustomerDto customer) throws CustomerValidationException, CustomerProcessException {
+
+        if (customer.getName().isEmpty() ||
+                customer.getLastName().isEmpty() ||
+                customer.getEmail().isEmpty()) {
+            throw new CustomerValidationException("Enter customer information");
+        }
+
+        try {
+            CustomerDto customerByEmail = findCustomerByEmail(customer.getEmail());
+
+            if (customerByEmail != null) {
+                throw new CustomerValidationException("Enter different email. " +
+                        "This email is being used by customer: " + customerByEmail.getId());
+            }
+        }  catch (CustomerProcessException e) {
+            logger.info("Email validations ok");
+        }
 
         Customer customerEntity = mapper.mapToEntity(customer);
         customerEntity.setId(getNextSequenceId());
 
-        customerDao.insert(customerEntity);
+        customerEntity = customerRepository.insert(customerEntity);
         logger.debug("Customer: {} has been saved", customer);
+        return mapper.mapToDto(customerEntity);
     }
 
     @Override
-    public CustomerDto findCustomerById(Long customerId) {
+    public CustomerDto findCustomerById(Long customerId) throws CustomerValidationException, CustomerProcessException {
 
-        Optional<Customer> customerEntity = customerDao.findById(customerId);
+        if (customerId == 0) {
+            throw new CustomerValidationException("customerId cannot be 0");
+        }
+
+        Optional<Customer> customerEntity = customerRepository.findById(customerId);
+
+        if (customerEntity.isEmpty()) {
+            throw new CustomerProcessException("Customer can not be found by id");
+        }
+
         return mapper.mapToDto(customerEntity.get());
     }
 
     @Override
-    public CustomerDto findCustomerByEmail(String email) {
-        Optional<Customer> byEmail = customerDao.findByEmail(email);
-        return mapper.mapToDto(byEmail.get());
-    }
+    public CustomerDto findCustomerByEmail(String email) throws CustomerValidationException, CustomerProcessException {
 
-    @Override
-    public ArrayList customerOrders(Long customerId) throws Exception {
+        if (email.isEmpty()) {
+            throw new CustomerValidationException("email cannot be empty");
+        }
 
-        return Optional.ofNullable(customerDao.findById(customerId)).map(customer -> new ArrayList()).orElseThrow(() -> new Exception("Invalid customerId"));
+        Optional<Customer> customerEntity = customerRepository.findByEmail(email);
+        if (customerEntity.isEmpty()) {
+            throw new CustomerProcessException("Customer can not be found by email");
+        }
+        return mapper.mapToDto(customerEntity.get());
     }
 
     private long getNextSequenceId() {
-        Random random = new Random();
-        return (random.nextLong() * (random.nextLong() % 100)) + customerDao.count();
+        return (random.nextLong() * (random.nextLong() % 100)) + customerRepository.count();
     }
 }

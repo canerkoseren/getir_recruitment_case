@@ -4,9 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+/**
+ * Customer dto class.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 public class BookDto {
 
     private Long id;

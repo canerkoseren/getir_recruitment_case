@@ -1,10 +1,10 @@
 package com.example.customer.rest.impl;
 
-import com.example.customer.data.entity.Customer;
 import com.example.customer.rest.CustomerController;
-import com.example.customer.service.model.CustomerDto;
-import com.example.customer.service.model.CustomerOrder;
 import com.example.customer.service.CustomerService;
+import com.example.customer.service.model.CustomerDto;
+import com.example.customer.service.model.exception.CustomerProcessException;
+import com.example.customer.service.model.exception.CustomerValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+/**
+ * Implementation of {@link CustomerController}.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 @RestController
 public class CustomerControllerImpl implements CustomerController {
 
@@ -34,26 +39,21 @@ public class CustomerControllerImpl implements CustomerController {
     }
 
     @Override
-    public void save(@RequestBody CustomerDto customerDto) {
-
-        logger.info("Customer: {} will be saved", customerDto);
-        customerService.save(customerDto);
+    public ResponseEntity<CustomerDto> save(@RequestBody CustomerDto customerDto) throws CustomerValidationException, CustomerProcessException {
+        CustomerDto customer = customerService.save(customerDto);
+        logger.info("Customer: {} has been saved", customer);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> findCustomerById(@RequestParam Long customerId) {
+    public ResponseEntity<CustomerDto> findCustomerById(@RequestParam Long customerId) throws CustomerValidationException, CustomerProcessException {
         CustomerDto customer = customerService.findCustomerById(customerId);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> findCustomerByEmail(String email) {
+    public ResponseEntity<CustomerDto> findCustomerByEmail(String email) throws CustomerValidationException, CustomerProcessException {
         CustomerDto customer = customerService.findCustomerByEmail(email);
         return new ResponseEntity<>(customer, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<CustomerOrder>> customerOrders(Long customerId) {
-        return null;
     }
 }

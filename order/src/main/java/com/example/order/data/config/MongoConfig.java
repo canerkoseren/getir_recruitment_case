@@ -16,6 +16,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+/**
+ * Configures MongoDB.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 @Configuration
 @EnableMongoRepositories(basePackages = "com.example.order")
 public class MongoConfig {

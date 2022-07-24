@@ -1,8 +1,5 @@
 package com.example.order.data.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,9 +7,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+/**
+ * Order Entity.
+ *
+ * @author Caner Köseren
+ * @version 0.0.1
+ * @created 24.7.2022
+ */
 @Document("order")
 public class Order {
 
@@ -21,7 +22,7 @@ public class Order {
     private Long customerId;
     private List<Long> bookIdList;
     private String status;
-    private BigDecimal amount;
+    private Double amount;
     private LocalDate processDate;
 
     public Long getId() {
@@ -56,11 +57,11 @@ public class Order {
         this.status = status;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
