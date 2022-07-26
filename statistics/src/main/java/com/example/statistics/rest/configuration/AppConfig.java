@@ -1,5 +1,6 @@
 package com.example.statistics.rest.configuration;
 
+import com.example.statistics.rest.configuration.handler.AuthenticationInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
