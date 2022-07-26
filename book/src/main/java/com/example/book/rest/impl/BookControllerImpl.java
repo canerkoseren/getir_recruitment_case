@@ -46,7 +46,7 @@ public class BookControllerImpl implements BookController {
     }
 
     @Override
-    public ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws Exception {
+    public ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws BookProcessException, BookValidationException {
         BookDto book = bookService.update(bookDto);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }

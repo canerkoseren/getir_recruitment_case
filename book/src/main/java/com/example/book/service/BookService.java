@@ -17,5 +17,5 @@ public interface BookService {
 
     BookDto findBookById(Long bookId) throws BookValidationException, BookProcessException;
 
-    BookDto update(BookDto book) throws Exception;
+    BookDto update(BookDto book) throws BookValidationException, BookProcessException;
 }

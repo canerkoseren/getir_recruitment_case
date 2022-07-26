@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * Interceptor responsible for authentication.
@@ -29,18 +29,20 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         String token = request.getHeaders(Headers.Authorization).nextElement();
 
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-        attributes.setAttribute(Headers.Authorization, token, RequestAttributes.SCOPE_REQUEST);
-        RequestContextHolder.setRequestAttributes(attributes);
 
-        logger.info("Token: {}", token);
+        if (Objects.nonNull(attributes)) {
+            attributes.setAttribute(Headers.Authorization, token, RequestAttributes.SCOPE_REQUEST);
+            RequestContextHolder.setRequestAttributes(attributes);
+        }
 
-        if (token.isBlank()) {
+        if (Objects.isNull(token) || token.isEmpty()) {
             response.getWriter().println("Unauthorized token");
             response.setStatus(HttpStatus.FORBIDDEN.value());
             return false;
         } else {
+
+            logger.info("Token: {}", token);
             return true;
         }
     }
-
 }

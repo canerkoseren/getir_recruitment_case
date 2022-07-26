@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -40,10 +41,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto save(BookDto book) throws BookValidationException, BookProcessException {
 
-        if (book.getStock() <= 0) {
+        if (Objects.isNull(book.getStock()) || book.getStock() <= 0) {
             throw new BookValidationException("Stock can not be less than 0");
         }
-        if (book.getTitle().isEmpty()) {
+        if (Objects.isNull(book.getTitle()) || book.getTitle().isEmpty()) {
             throw new BookValidationException("Title can not be empty");
         }
 

@@ -19,5 +19,5 @@ public interface BookController {
     ResponseEntity<BookDto> findBookById(@RequestParam(name = "bookId") Long bookId) throws BookProcessException, BookValidationException;
 
     @PutMapping(value = "update")
-    ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws Exception;
+    ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws BookProcessException, BookValidationException;
 }
