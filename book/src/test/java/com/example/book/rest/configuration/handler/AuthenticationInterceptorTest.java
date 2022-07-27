@@ -1,12 +1,10 @@
 package com.example.book.rest.configuration.handler;
 
-import com.mongodb.assertions.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
@@ -27,7 +25,7 @@ class AuthenticationInterceptorTest {
     AuthenticationInterceptor interceptor = new AuthenticationInterceptor();
 
     @Test
-    void when_TokenIsNotEmpty_ReturnTrue() throws AuthenticationException, IOException {
+    void when_TokenIsNotEmpty_ReturnTrue() throws IOException {
 
         Enumeration<String> headers = new Enumeration<String>() {
             @Override
@@ -51,7 +49,7 @@ class AuthenticationInterceptorTest {
     }
 
     @Test
-    void when_TokenIsEmpty_ReturnFalse() throws AuthenticationException, IOException {
+    void when_TokenIsEmpty_ReturnFalse() throws IOException {
 
         Enumeration<String> headers = new Enumeration<String>() {
             @Override

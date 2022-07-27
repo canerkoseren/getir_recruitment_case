@@ -20,9 +20,6 @@ import java.util.List;
 @RequestMapping(value = "statistics/v1")
 public interface StatisticsController {
 
-    @GetMapping(value = "status")
-    ResponseEntity<String> status();
-
     @GetMapping(value = "monthlyCustomerOrders")
     ResponseEntity<List<MonthlyReportDto>> getMonthlyOrderStatisticsForCustomer(@RequestParam(name = "customerId") long customerId) throws StatisticsValidationException, StatisticsProcessException;
 

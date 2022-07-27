@@ -3,6 +3,7 @@ package com.example.book.rest.impl;
 import com.example.book.rest.BookController;
 import com.example.book.service.BookService;
 import com.example.book.service.model.BookDto;
+import com.example.book.service.model.BookStockDto;
 import com.example.book.service.model.exception.BookProcessException;
 import com.example.book.service.model.exception.BookValidationException;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class BookControllerImpl implements BookController {
@@ -49,5 +52,11 @@ public class BookControllerImpl implements BookController {
     public ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws BookProcessException, BookValidationException {
         BookDto book = bookService.update(bookDto);
         return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<BookStockDto>> stocks() {
+        List<BookStockDto> stocks = bookService.stocks();
+        return new ResponseEntity<>(stocks, HttpStatus.OK);
     }
 }

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -38,11 +39,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDto save(CustomerDto customer) throws CustomerValidationException, CustomerProcessException {
+    public CustomerDto save(CustomerDto customer) throws CustomerValidationException {
 
-        if (customer.getName().isEmpty() ||
-                customer.getLastName().isEmpty() ||
-                customer.getEmail().isEmpty()) {
+        if (!validateCustomer(customer)) {
             throw new CustomerValidationException("Enter customer information");
         }
 
@@ -53,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new CustomerValidationException("Enter different email. " +
                         "This email is being used by customer: " + customerByEmail.getId());
             }
-        }  catch (CustomerProcessException e) {
+        } catch (CustomerProcessException e) {
             logger.info("Email validations ok");
         }
 
@@ -68,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto findCustomerById(Long customerId) throws CustomerValidationException, CustomerProcessException {
 
-        if (customerId == 0) {
+        if (Objects.isNull(customerId) || customerId == 0) {
             throw new CustomerValidationException("customerId cannot be 0");
         }
 
@@ -84,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto findCustomerByEmail(String email) throws CustomerValidationException, CustomerProcessException {
 
-        if (email.isEmpty()) {
+        if (Objects.isNull(email) || email.isEmpty()) {
             throw new CustomerValidationException("email cannot be empty");
         }
 
@@ -97,5 +96,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     private long getNextSequenceId() {
         return (random.nextLong() * (random.nextLong() % 100)) + customerRepository.count();
+    }
+
+    private boolean validateCustomer(CustomerDto customer) {
+
+        if (Objects.isNull(customer)) {
+            return false;
+        }
+        if (Objects.isNull(customer.getName()) || customer.getName().isEmpty()) {
+            return false;
+        }
+        if (Objects.isNull(customer.getLastName()) || customer.getLastName().isEmpty()) {
+            return false;
+        }
+        if (Objects.isNull(customer.getEmail()) || customer.getEmail().isEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 }

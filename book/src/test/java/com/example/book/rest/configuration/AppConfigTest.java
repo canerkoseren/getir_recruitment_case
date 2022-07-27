@@ -5,8 +5,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
 
 /**
  * Unit test for {@link AppConfig}.
@@ -27,5 +27,6 @@ class AppConfigTest {
 
         appConfig = new AppConfig();
         appConfig.addInterceptors(interceptorRegistry);
+        verify(interceptorRegistry, atLeastOnce()).addInterceptor(any());
     }
 }

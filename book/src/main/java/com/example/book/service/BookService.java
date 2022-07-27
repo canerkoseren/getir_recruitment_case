@@ -1,8 +1,11 @@
 package com.example.book.service;
 
 import com.example.book.service.model.BookDto;
+import com.example.book.service.model.BookStockDto;
 import com.example.book.service.model.exception.BookProcessException;
 import com.example.book.service.model.exception.BookValidationException;
+
+import java.util.List;
 
 /**
  * Service contracts.
@@ -18,4 +21,6 @@ public interface BookService {
     BookDto findBookById(Long bookId) throws BookValidationException, BookProcessException;
 
     BookDto update(BookDto book) throws BookValidationException, BookProcessException;
+
+    List<BookStockDto> stocks();
 }

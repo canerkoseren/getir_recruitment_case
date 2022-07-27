@@ -13,6 +13,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest(classes = BookApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,10 +29,10 @@ class BookControllerIntegrationTest {
     @BeforeAll
     static void setUp() {
 
-        urlPrefix = "http://localhost:8080/book/v1";
+        urlPrefix = "http://localhost:8091/book/v1";
 
         httpHeaders = new HttpHeaders();
-        httpHeaders.add(Headers.Authorization, "token123");
+        httpHeaders.add(Headers.AUTHORIZATION, "token123");
 
         book = new BookDto();
         book.setDescription("test-description");
@@ -83,5 +84,15 @@ class BookControllerIntegrationTest {
         ResponseEntity<BookDto> response = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, BookDto.class);
         book = response.getBody();
         Assertions.assertNotNull(book);
+    }
+
+    @Test
+    @Order(5)
+    void testStocks() {
+
+        String url = urlPrefix + "/stocks";
+        HttpEntity httpEntity = new HttpEntity(httpHeaders);
+        ResponseEntity<List> exchange = restTemplate.exchange(url, HttpMethod.GET, httpEntity, List.class);
+        Assertions.assertNotNull(exchange.getBody());
     }
 }

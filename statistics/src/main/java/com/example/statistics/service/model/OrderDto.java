@@ -1,6 +1,5 @@
 package com.example.statistics.service.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,8 +18,6 @@ public class OrderDto {
     private String status;
     private Double amount;
     private LocalDate processDate;
-
-    private transient int month;
 
     public Long getId() {
         return id;

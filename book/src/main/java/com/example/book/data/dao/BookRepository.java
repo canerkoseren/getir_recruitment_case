@@ -4,6 +4,7 @@ import com.example.book.data.entity.Book;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,4 +30,6 @@ public interface BookRepository extends MongoRepository<Book, Long> {
     @Override
     Optional<Book> findById(Long aLong);
 
+    @Override
+    List<Book> findAll();
 }

@@ -3,9 +3,9 @@ package com.example.order.service.impl;
 import com.example.order.data.dao.OrderRepository;
 import com.example.order.data.entity.Order;
 import com.example.order.rest.configuration.client.RestClient;
-import com.example.order.service.model.CustomerDto;
 import com.example.order.service.OrderService;
 import com.example.order.service.model.BookDto;
+import com.example.order.service.model.CustomerDto;
 import com.example.order.service.model.OrderDto;
 import com.example.order.service.model.exception.OrderProcessException;
 import com.example.order.service.model.exception.OrderValidationException;
@@ -56,10 +56,13 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private RestTemplate restTemplate;
 
+    private Random random;
+
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, RestClient restClient) {
         this.orderRepository = orderRepository;
         this.restTemplate = restClient.restTemplate();
+        this.random = new Random();
     }
 
     @Override
@@ -73,8 +76,11 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setId(getNextSequenceId());
 
         orderEntity = orderRepository.save(orderEntity);
+        OrderDto orderDto = mapper.mapToDto(orderEntity);
 
-        return mapper.mapToDto(orderEntity);
+        logger.info("Order - ID: {}, has been created.", orderDto.getId());
+
+        return orderDto;
 
     }
 
@@ -82,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto findOrderById(Long orderId) {
 
         Optional<Order> order = orderRepository.findById(orderId);
-        return mapper.mapToDto(order.get());
+        return order.map(mapper::mapToDto).orElse(null);
     }
 
     @Override
@@ -91,7 +97,11 @@ public class OrderServiceImpl implements OrderService {
         Order orderEntity = mapper.mapToEntity(order);
         orderEntity = orderRepository.save(orderEntity);
 
-        return mapper.mapToDto(orderEntity);
+        OrderDto orderDto = mapper.mapToDto(orderEntity);
+
+        logger.info("Order - ID: {}, has been updated.", orderDto.getId());
+
+        return orderDto;
     }
 
     @Override
@@ -105,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderValidationException("End date can not be empty");
         }
 
-        if(startDate.isAfter(endDate)){
+        if (startDate.isAfter(endDate)) {
             throw new OrderValidationException("Start date can not be greater than end date.");
         }
 
@@ -132,7 +142,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private long getNextSequenceId() {
-        Random random = new Random();
         return (random.nextLong() * (random.nextLong() % 100)) + orderRepository.count();
     }
 
@@ -140,7 +149,10 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderDto> convertedList = new ArrayList<>();
 
-        Optional.ofNullable(orderList.get()).ifPresent(orders -> orders.forEach(order -> convertedList.add(mapper.mapToDto(order))));
+        if (orderList.isPresent()) {
+            Optional.ofNullable(orderList.get())
+                    .ifPresent(orders -> orders.forEach(order -> convertedList.add(mapper.mapToDto(order))));
+        }
         return convertedList;
     }
 

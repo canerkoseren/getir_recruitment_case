@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "customer/v1")
 public interface CustomerController {
 
-    @GetMapping(value = "status")
-    ResponseEntity<String> status();
-
     @PostMapping(value = "save")
     ResponseEntity<CustomerDto> save(@RequestBody CustomerDto customerDto) throws CustomerValidationException, CustomerProcessException;
 

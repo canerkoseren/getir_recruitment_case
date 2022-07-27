@@ -1,7 +1,5 @@
 package com.example.statistics.service.model;
 
-import java.math.BigDecimal;
-
 public class MonthlyReportDto {
 
     private int month;

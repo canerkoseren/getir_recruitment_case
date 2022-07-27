@@ -3,7 +3,6 @@ package com.example.order.data.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 

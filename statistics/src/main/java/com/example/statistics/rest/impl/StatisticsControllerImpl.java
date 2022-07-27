@@ -5,8 +5,6 @@ import com.example.statistics.service.StatisticsService;
 import com.example.statistics.service.model.MonthlyReportDto;
 import com.example.statistics.service.model.exception.StatisticsProcessException;
 import com.example.statistics.service.model.exception.StatisticsValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +27,6 @@ public class StatisticsControllerImpl implements StatisticsController {
     @Autowired
     public StatisticsControllerImpl(StatisticsService statisticsService) {
         this.statisticsService = statisticsService;
-    }
-
-    @Override
-    public ResponseEntity<String> status() {
-        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @Override

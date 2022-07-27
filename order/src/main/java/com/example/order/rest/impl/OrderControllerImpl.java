@@ -37,11 +37,6 @@ public class OrderControllerImpl implements OrderController {
     }
 
     @Override
-    public ResponseEntity<String> status() {
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<OrderDto> save(@RequestBody OrderDto orderDto) throws OrderValidationException, OrderProcessException {
 
         logger.info("Order: {} will be saved", orderDto);

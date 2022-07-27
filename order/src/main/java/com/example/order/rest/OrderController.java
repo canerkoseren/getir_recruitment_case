@@ -20,9 +20,6 @@ import java.util.List;
 @RequestMapping(value = "order/v1")
 public interface OrderController {
 
-    @GetMapping(value = "status")
-    ResponseEntity<String> status();
-
     @PostMapping(value = "save")
     ResponseEntity<OrderDto> save(@RequestBody OrderDto orderDto) throws OrderValidationException, OrderProcessException;
 

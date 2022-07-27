@@ -9,8 +9,6 @@ import com.example.statistics.service.model.exception.StatisticsProcessException
 import com.example.statistics.service.model.exception.StatisticsValidationException;
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,9 +30,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
-
-    private static final Logger logger = LoggerFactory.getLogger(StatisticsServiceImpl.class);
-
 
     @Getter
     @Setter

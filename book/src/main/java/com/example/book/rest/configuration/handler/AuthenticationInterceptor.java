@@ -19,14 +19,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws AuthenticationException, IOException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 
-        String token = request.getHeaders(Headers.Authorization).nextElement();
+        String token = request.getHeaders(Headers.AUTHORIZATION).nextElement();
 
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
 
         if (Objects.nonNull(attributes)) {
-            attributes.setAttribute(Headers.Authorization, token, RequestAttributes.SCOPE_REQUEST);
+            attributes.setAttribute(Headers.AUTHORIZATION, token, RequestAttributes.SCOPE_REQUEST);
             RequestContextHolder.setRequestAttributes(attributes);
         }
 

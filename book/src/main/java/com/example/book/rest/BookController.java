@@ -1,10 +1,13 @@
 package com.example.book.rest;
 
 import com.example.book.service.model.BookDto;
+import com.example.book.service.model.BookStockDto;
 import com.example.book.service.model.exception.BookProcessException;
 import com.example.book.service.model.exception.BookValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping(value = "book/v1")
 public interface BookController {
@@ -20,4 +23,7 @@ public interface BookController {
 
     @PutMapping(value = "update")
     ResponseEntity<BookDto> update(@RequestBody BookDto bookDto) throws BookProcessException, BookValidationException;
+
+    @GetMapping(value = "stocks")
+    ResponseEntity<List<BookStockDto>> stocks();
 }

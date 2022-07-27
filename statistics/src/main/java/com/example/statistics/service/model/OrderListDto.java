@@ -1,8 +1,5 @@
 package com.example.statistics.service.model;
 
-import com.example.statistics.service.model.OrderDto;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +10,7 @@ import java.util.List;
  * @version 0.0.1
  * @created 24.7.2022
  */
-public class OrderListDto implements Serializable {
+public class OrderListDto {
 
     private List<OrderDto> orders;
 

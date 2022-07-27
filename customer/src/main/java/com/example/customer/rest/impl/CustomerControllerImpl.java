@@ -34,11 +34,6 @@ public class CustomerControllerImpl implements CustomerController {
     }
 
     @Override
-    public ResponseEntity<String> status() {
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<CustomerDto> save(@RequestBody CustomerDto customerDto) throws CustomerValidationException, CustomerProcessException {
         CustomerDto customer = customerService.save(customerDto);
         logger.info("Customer: {} has been saved", customer);

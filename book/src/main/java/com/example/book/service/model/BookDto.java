@@ -1,11 +1,7 @@
 package com.example.book.service.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 /**
- * Customer dto class.
+ * Book dto class.
  *
  * @author Caner Köseren
  * @version 0.0.1
