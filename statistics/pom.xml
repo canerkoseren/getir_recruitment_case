@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>order</artifactId>
+    <artifactId>statistics</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>Statistics Application</name>

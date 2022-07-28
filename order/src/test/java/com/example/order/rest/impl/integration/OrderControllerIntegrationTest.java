@@ -31,7 +31,7 @@ import java.util.Collections;
  */
 @SpringBootTest(classes = OrderApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class OrderControllerIntegrationTest {
+class OrderControllerIntegrationTest {
 
     private static HttpHeaders httpHeaders;
     private static CustomerDto customer;

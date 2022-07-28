@@ -52,13 +52,11 @@ public class MongoConfig {
 
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory() {
-        MongoDatabaseFactory mongoDatabaseFactory = new SimpleMongoClientDatabaseFactory(mongoClient(), database);
-        return mongoDatabaseFactory;
+        return new SimpleMongoClientDatabaseFactory(mongoClient(), database);
     }
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        MongoTemplate template = new MongoTemplate(mongoDatabaseFactory());
-        return template;
+        return new MongoTemplate(mongoDatabaseFactory());
     }
 }

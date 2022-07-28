@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
  * @version 0.0.1
  * @created 28.7.2022
  */
-public class OrderControllerTest {
+class OrderControllerTest {
 
     private static OrderService orderService;
     private static OrderController orderController;

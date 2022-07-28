@@ -28,12 +28,16 @@ public class ClientInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-        String token = (String) attributes.getAttribute(Headers.AUTHORIZATION, RequestAttributes.SCOPE_REQUEST);
 
-        HttpHeaders headers = request.getHeaders();
-        headers.add(Headers.AUTHORIZATION, token);
+        if (attributes != null) {
 
-        logger.info("Token: {}", token);
+            String token = (String) attributes.getAttribute(Headers.AUTHORIZATION, RequestAttributes.SCOPE_REQUEST);
+
+            HttpHeaders headers = request.getHeaders();
+            headers.add(Headers.AUTHORIZATION, token);
+
+            logger.info("Token: {}", token);
+        }
 
         return execution.execute(request, body);
     }

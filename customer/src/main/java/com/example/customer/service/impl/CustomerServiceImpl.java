@@ -109,10 +109,6 @@ public class CustomerServiceImpl implements CustomerService {
         if (Objects.isNull(customer.getLastName()) || customer.getLastName().isEmpty()) {
             return false;
         }
-        if (Objects.isNull(customer.getEmail()) || customer.getEmail().isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return !Objects.isNull(customer.getEmail()) && !customer.getEmail().isEmpty();
     }
 }
