@@ -1,4 +1,4 @@
-# Project
+# Project: ***ReadingIsGood***
 
 ## 1. Project Details
 This repository has 4 different applications. Each of them is a sub module
