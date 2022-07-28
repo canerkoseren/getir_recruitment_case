@@ -5,10 +5,8 @@ import com.example.statistics.rest.StatisticsController;
 import com.example.statistics.rest.configuration.constant.Headers;
 import com.example.statistics.service.model.BookDto;
 import com.example.statistics.service.model.CustomerDto;
-import com.example.statistics.service.model.MonthlyReportDto;
 import com.example.statistics.service.model.OrderDto;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Integration test for {@link StatisticsController}.

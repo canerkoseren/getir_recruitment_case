@@ -68,7 +68,6 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         List<OrderDto> orderList = Arrays.asList(orders);
 
-
         Map<Integer, Long> monthlyOrderCount = orderList.stream()
                 .filter(order -> order.getStatus().equals("OK"))
                 .collect(
